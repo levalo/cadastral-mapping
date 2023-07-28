@@ -1,10 +1,12 @@
 export function createUidOf<T extends Uid>(data: Array<T>) {
-    let i = Date.now().toString(),
-        found = data.find(x => x.uid === i)
+    const find = (id: string) => data.find(x => x.uid === id)
 
-    while(found) {
-        i = Date.now().toString()
-    }
+    let id: string, found
 
-    return i
+    do {
+        id = Date.now().toString()
+        found = find(id)
+    } while (found)
+
+    return id
 }
