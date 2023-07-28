@@ -56,4 +56,44 @@ L.SVG.include({
         layer._image.setAttribute('width', s);
         layer._image.setAttribute('height', s2);
 	},
+
+	_initTooltip(layer) {
+		const p = layer._point,
+			ox = layer.options.tooltip.offsetX || 5,
+			oy = layer.options.tooltip.offsetY || ox;
+		
+		if (!layer._tooltip) {
+			layer._tooltip = create('text');
+
+			this._rootGroup.appendChild(layer._tooltip);
+		}
+
+		layer._tooltip.setAttribute('x', p.x + ox);
+        layer._tooltip.setAttribute('y', p.y + oy);
+		layer._tooltip.textContent = layer.options.tooltip.text;
+	},
+
+	_removeTooltip(layer) {
+		layer.removeInteractiveTarget(layer._tooltip);
+		layer._tooltip.remove();
+		delete layer._tooltip;
+	}
 });
+
+L.SVGCustom = L.SVG.extend({
+	_updateCircle(layer) {
+		L.SVG.prototype._updateCircle.call(this, layer);
+
+		if (layer.options.tooltip) {
+			this._initTooltip(layer);
+		}
+	},
+
+	_removePath(layer) {
+		L.SVG.prototype._removePath.call(this, layer);
+
+		if (layer._tooltip) {
+			this._removeTooltip(layer)
+		}
+	}
+})

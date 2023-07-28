@@ -1,13 +1,12 @@
 import { FC, Fragment } from "react"
 import { Polygon } from "react-leaflet"
-import { PolygonFeatureCategories } from "../../../constants"
 import useFeatures from "../../../hooks/useFeatures"
 import useProjection from "../../../hooks/useProjection"
 
 interface PolygonsFeatureProps { }
 
 const PolygonsFeatureLayer: FC<PolygonsFeatureProps> = (props) => {
-    const { features } = useFeatures(PolygonFeatureCategories)
+    const { features } = useFeatures("polygon")
     const { project } = useProjection()
 
     return (

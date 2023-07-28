@@ -1,16 +1,22 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useMap } from "react-leaflet"
+
+type DrawerTypes = "feature" | "points"
 
 const useEditor = () => {
-    const [ showAddFeatureDrawer, setShowAddFeatureDrawer ] = useState<boolean>(false)
+    const [ showDrawer, setShowDrawer ] = useState<DrawerTypes>()
+    const [ selectedPoints, setSelectedPoints ] = useState<string[]>()
 
-    const onAddFeatureDrawerOpen = () => setShowAddFeatureDrawer(() => true)
+    const openDrawer = (type: DrawerTypes) => setShowDrawer(type)
 
-    const onAddFeatureDrawerClose = () => setShowAddFeatureDrawer(() => false)
+    const closeDrawer = () => setShowDrawer(undefined)
 
     return {
-        showAddFeatureDrawer,
-        onAddFeatureDrawerOpen,
-        onAddFeatureDrawerClose
+        showDrawer,
+        openDrawer,
+        closeDrawer,
+        selectedPoints,
+        setSelectedPoints
     }
 }
 

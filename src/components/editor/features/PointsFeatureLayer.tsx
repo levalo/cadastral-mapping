@@ -1,15 +1,16 @@
-import { FC, Fragment } from "react"
+import { FC, Fragment, useContext } from "react"
 import { LayerGroup } from "react-leaflet"
 import useFeatures from "../../../hooks/useFeatures"
 import useProjection from "../../../hooks/useProjection"
 import ImageMarker from "./ImageMarker"
-import Categories from "./categories"
-import { PointFeatureCategories } from "../../../constants"
+import { featureCategoriesContext } from "../../FeatureCategories"
 
 interface PointsFeatureLayerProps { }
 
 const PointsFeatureLayer: FC<PointsFeatureLayerProps> = (props) => {
-    const { features } = useFeatures(PointFeatureCategories)
+    const categories = useContext(featureCategoriesContext)
+
+    const { features } = useFeatures("point")
 	const { project } = useProjection()
 
     return (
@@ -19,7 +20,7 @@ const PointsFeatureLayer: FC<PointsFeatureLayerProps> = (props) => {
                     {p.points.map(({ x, y }, j) => (
 						<ImageMarker key={j} 
                             position={project([x, y])} 
-                            options={Categories[p.category].Options}/>
+                            options={categories[p.category].options!}/>
                     ))}
                 </LayerGroup>
             ))}

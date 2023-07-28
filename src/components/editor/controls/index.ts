@@ -1,7 +1,11 @@
 import ActionsPanel from "./ActionsPanel"
-import FeaturesPanel from "./FeaturesPanel"
+import FeaturesTree from "./FeaturesTree"
+import LayersPanel from "./LayersPanel"
+import PointsTree from "./PointsTree"
 
 export {
-    FeaturesPanel,
+    PointsTree,
+    FeaturesTree,
     ActionsPanel,
+    LayersPanel
 }

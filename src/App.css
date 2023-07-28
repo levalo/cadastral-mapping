@@ -17,11 +17,3 @@
 .actions-panel li {
   background: #fff !important;
 }
-
-.features-panel {
-  display: inline-block;
-}
-
-.features-panel .ant-card-body {
-  padding: 5px;
-}
