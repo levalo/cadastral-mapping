@@ -1,7 +1,6 @@
 import { FC, useContext, useMemo } from "react"
 import { Select, Space, Typography } from "antd"
 import { DefaultOptionType, SelectProps } from "antd/es/select"
-import { editorContext } from "../Editor"
 import CategoryIcon from "../../CategoryIcon"
 import { featureCategoriesContext } from "../../FeatureCategories"
 
@@ -16,7 +15,7 @@ const FeatureCategorySelect: FC<Omit<SelectProps, "options">> = (props) => {
                 <Typography.Text>{x}</Typography.Text>
             </Space>
         )
-    })), [])
+    })), [ categories ])
 
     return (
         <Select options={categoryItems} {...props}/>

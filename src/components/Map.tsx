@@ -1,9 +1,7 @@
 import { FC } from "react"
-import { SVG, SVGCustom } from "leaflet"
+import { SVGCustom } from "leaflet"
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet"
 
-import "leaflet.pattern/dist/leaflet.pattern"
-import "leaflet-polylinedecorator/dist/leaflet.polylineDecorator"
 import "../plugins/leaflet"
 
 import { Editor } from "./editor"

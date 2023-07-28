@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Button, Form, FormProps } from "antd"
+import { Button, Form } from "antd"
 import FormItem from "antd/es/form/FormItem"
 import PointsTable from "../controls/PointsTable"
 import usePoints from "../../../hooks/usePoints"

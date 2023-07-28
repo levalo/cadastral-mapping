@@ -23,7 +23,7 @@ const FeaturesTree: FC<FeaturesTreeProps> = (props) => {
                 </Button>
             </Space>
         ),
-    })), [ features ])
+    })), [ features, categories ])
 
     return (
         <Tree treeData={items} />

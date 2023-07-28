@@ -1,7 +1,4 @@
-import { FC, useContext, useMemo } from "react"
-import { Button, Card, Space, Tree, Typography } from "antd"
-import useFeatures from "../../../hooks/useFeatures"
-import { DataNode } from "antd/es/tree"
+import { FC } from "react"
 import PointsTree from "./PointsTree"
 import FeaturesTree from "./FeaturesTree"
 import PanelContainer from "./PanelContainer"

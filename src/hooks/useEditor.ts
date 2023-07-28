@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import { useMap } from "react-leaflet"
+import { useState } from "react"
 
 type DrawerTypes = "feature" | "points"
 
