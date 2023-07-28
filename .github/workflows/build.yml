@@ -30,7 +30,7 @@ jobs:
     - name: Merge
       run: |
         git fetch origin
-        git merge origin/dev
+        git merge origin/dev --allow-unrelated-histories
     - name: Install dependencies
       run: npm install
     - name: Build
