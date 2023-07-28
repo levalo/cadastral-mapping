@@ -26,7 +26,6 @@ jobs:
         user_email: 'github-actions[bot]@users.noreply.github.com'
         github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
         repository: ${{ github.repository }}
-        CI: false
     - name: Merge
       run: |
         git fetch origin
@@ -36,3 +35,5 @@ jobs:
     - name: Build
       run: |
         npm run deploy
+      env:
+        CI: false
