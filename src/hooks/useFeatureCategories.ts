@@ -7,7 +7,7 @@ const useFeatureCategories = () => {
     useEffect(() => {
         let subscribed = true
 
-        fetch('/feature-categories.json').then(res => res.json()).then((data: Record<string, FeatureCategory>) => subscribed && setCategories(data))
+        fetch('https://levalo.github.io/cadastral-mapping/feature-categories.json').then(res => res.json()).then((data: Record<string, FeatureCategory>) => subscribed && setCategories(data))
 
         return () => { subscribed = false }
     }, [])
