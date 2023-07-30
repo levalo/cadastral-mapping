@@ -1,20 +1,6 @@
-
 declare module 'leaflet' {
 
     class SVGCustom extends SVG { }
-
-    interface CustomPolylineOptions extends PolylineOptions {
-        decorators?: PolylineOptions[]
-    }
-
-    // interface MarkerOptions extends PathOptions {
-    //     radius?: number | undefined
-    //     tooltip?: {
-    //         text: string,
-    //         offsetX?: number,
-    //         offsetY?: number
-    //     }
-    // }
 
     interface ImageMarkerOptions {
         href: string
@@ -51,11 +37,6 @@ declare module 'leaflet' {
     }
 
     function imageMarker(latLng: LatLngExpression, options: ImageMarkerOptions): ImageMarker
-
-    interface FeatureCategory {
-        type: FeatureType,
-        options: CustomPolylineOptions | ImageMarkerOptions | PolygonOptions
-    }
 }
 
 declare module "react-leaflet" {
@@ -72,8 +53,6 @@ declare module "react-leaflet" {
 }
 
 declare global {
-
-    type FeatureType = 'line' | 'point' | 'polygon' | 'isohypse'
 
     // type PointsFeatureCategory = 
     //     'Ark' | // არკა
@@ -123,29 +102,13 @@ declare global {
     //     'Isohypse' | // იზოჰიფსი
     //     'MainIsohypse' // მთავარი იზოჰიფსი
 
-    // type FeatureCategory = PointsFeatureCategory | LineFeatureCategory | PolygonFeatureCategory | IsohypseFeatureCategory
 
-    interface Uid {
-        uid?: string
-    }
-
-    interface Point extends Uid {
-        x: number
-        y: number
-        z: number
+    interface PointProperties {
+        elevation?: number,
         group: string
     }
-    
-    interface Feature {
-        points: Point[]
-        category: string
-    }
-    
-    interface ProjectState {
-        points: Point[]
-        features: Feature[]
-        name: string
-    }
+
+    type DrawingGeometryTypes = "MultiPoint" | "LineString"
 }
 
 export {}

@@ -3,6 +3,7 @@ import { Button, Form } from "antd"
 import FormItem from "antd/es/form/FormItem"
 import PointsTable from "../controls/PointsTable"
 import usePoints from "../../../hooks/usePoints"
+import { PointType } from "../../../store/reducers/points"
 
 interface PointsFormProps {
     onSuccess: () => void
@@ -11,7 +12,7 @@ interface PointsFormProps {
 const PointsForm: FC<PointsFormProps> = ({ onSuccess }) => {
     const { dispatchAddPoints } = usePoints()
 
-    const handleFinish = (data: { points: Point[] }) => {
+    const handleFinish = (data: { points: PointType[] }) => {
         dispatchAddPoints(data.points)
 
         onSuccess()

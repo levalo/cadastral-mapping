@@ -6,15 +6,15 @@ import useProjection from "../../hooks/useProjection"
 interface PointsLayerProps { }
 
 const PointsLayer: FC<PointsLayerProps> = (props) => {
-    const { points } = usePoints()
+    const { features } = usePoints()
     
 	const { project } = useProjection()
 
     return (
         <LayerGroup>
-            {points?.map(p => (
-                <CircleMarker key={p.uid} center={project([p.x, p.y])} radius={1} color="#000" tooltip={{
-                    text: p.z.toString()
+            {features.map(p => (
+                <CircleMarker key={p.id} center={project(p.geometry.coordinates)} radius={1} color="#000" tooltip={{
+                    text: p.properties.elevation?.toString() || ''
                 }} />
             ))}
         </LayerGroup>

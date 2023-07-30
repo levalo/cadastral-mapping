@@ -9,9 +9,9 @@ interface PointsTreeProps { }
 
 const PointsTree: FC<PointsTreeProps> = (props) => {
     const editor = useContext(editorContext)
-    const { points, groups, dispatchRemovePointsGroup, dispatchRemovePoints } = usePoints()
+    const { features, groups, dispatchRemovePointsGroup, dispatchRemovePoints } = usePoints()
 
-    const items: Array<DataNode & Uid> = useMemo(() => {
+    const items: Array<DataNode & { id?: string }> = useMemo(() => {
         const g = groups()
 
         return Object.keys(g).map((x, i) => ({
@@ -25,12 +25,12 @@ const PointsTree: FC<PointsTreeProps> = (props) => {
                 </Space>
             ),
             children: g[x].map(y => ({
-                key: y.uid!,
-                uid: y.uid,
+                key: y.id!,
+                id: y.id,
                 title: (
                     <Space>
-                        <Typography.Text>{y.z}</Typography.Text>
-                        <Button onClick={() => dispatchRemovePoints([y])} type='link'>
+                        <Typography.Text>{y.properties.elevation}</Typography.Text>
+                        <Button onClick={() => dispatchRemovePoints([y.id! as string])} type='link'>
                             <MinusCircleOutlined style={{ color: '#f00' }} />
                         </Button>
                     </Space>
@@ -38,15 +38,15 @@ const PointsTree: FC<PointsTreeProps> = (props) => {
                 isLeaf: true
             }))
         }))
-    }, [ points ])
+    }, [ features ])
 
     return (
         <Tree.DirectoryTree 
             treeData={items} 
             style={{ width: 210 }} 
             height={233} 
-            checkedKeys={editor?.selectedPoints}
-            onCheck={(_, { checkedNodes }) => editor?.setSelectedPoints(checkedNodes.map(x => x.uid!))} 
+            checkedKeys={editor?.selectedPoints || []}
+            onCheck={(_, { checkedNodes }) => editor?.setSelectedPoints(checkedNodes.filter(x => x.id).map(x => x.id!))} 
             selectable={false}
             checkable 
             defaultExpandAll 

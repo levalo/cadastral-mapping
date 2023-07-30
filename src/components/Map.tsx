@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, ZoomControl } from "react-leaflet"
 import "../plugins/leaflet"
 
 import { Editor } from "./editor"
-import FeatureCategories from "./FeatureCategories"
+import DrawingCategories from "./DrawingCategories"
 
 // tilelayers https://leaflet-extras.github.io/leaflet-providers/preview/
 
@@ -20,9 +20,9 @@ const Map: FC<MapProps> = (props) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
             />
-            <FeatureCategories>
+            <DrawingCategories>
                 <Editor />
-            </FeatureCategories>
+            </DrawingCategories>
         </MapContainer>
     )
 }

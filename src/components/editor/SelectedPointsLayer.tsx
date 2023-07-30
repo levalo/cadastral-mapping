@@ -8,16 +8,16 @@ interface SelectedPointsProps { }
 
 const SelectedPointsLayer: FC<SelectedPointsProps> = (props) => {
     const editor = useContext(editorContext)
-    const { points, filterByUid } = usePoints()
+    const { features, filterByUid } = usePoints()
     
 	const { project } = useProjection()
 
-    const selectedPoints = useMemo(() => filterByUid(editor?.selectedPoints || []), [ editor?.selectedPoints, points ])
+    const selectedPoints = useMemo(() => filterByUid(editor?.selectedPoints || []), [ editor?.selectedPoints, features ])
 
     return (
         <LayerGroup>
             {selectedPoints.map(p => (
-                <CircleMarker key={p.uid} center={project([p.x, p.y])} radius={2} color="#00f" />
+                <CircleMarker key={p.id} center={project(p.geometry.coordinates)} radius={2} color="#00f" />
             ))}
         </LayerGroup>
     )

@@ -2,8 +2,8 @@ import { createContext, FC } from "react"
 import { Drawer } from "antd"
 import useEditor from "../../hooks/useEditor"
 import { ActionsPanel, LayersPanel } from "./controls"
-import { LinesFeatureLayer, PointsFeatureLayer, PolygonsFeatureLayer } from "./features"
-import FeatureForm from "./forms/FeatureForm"
+import { LinesFeatureLayer, PointsFeatureLayer } from "./drawings"
+import DrawingForm from "./forms/DrawingForm"
 import PointsForm from "./forms/PointsForm"
 import PointsLayer from "./PointsLayer"
 import SelectedPointsLayer from "./SelectedPointsLayer"
@@ -23,9 +23,8 @@ const Editor: FC<EditorProps> = (props) => {
             <PointsLayer />
             <PointsFeatureLayer />
             <LinesFeatureLayer />
-            <PolygonsFeatureLayer />
             <Drawer open={editor.showDrawer === "feature"} onClose={editor.closeDrawer}>
-                <FeatureForm points={editor.selectedPoints || []} key={editor.showDrawer} onSuccess={editor.closeDrawer} />
+                <DrawingForm points={editor.selectedPoints || []} key={editor.showDrawer} onSuccess={editor.closeDrawer} />
             </Drawer>
             <Drawer open={editor.showDrawer === "points"} onClose={editor.closeDrawer}>
                 <PointsForm key={editor.showDrawer} onSuccess={editor.closeDrawer} />

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
-import project from "./reducers/project"
+import drawings from "./reducers/drawings"
+import points from "./reducers/points";
 
 const store = configureStore({
     reducer: {
-        project,
+        drawings,
+        points
     }
 });
 

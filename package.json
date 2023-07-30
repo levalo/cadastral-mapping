@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.10",
     "@types/jest": "^27.5.2",
     "@types/leaflet": "^1.9.3",
     "@types/leaflet.pattern": "^0.1.2",

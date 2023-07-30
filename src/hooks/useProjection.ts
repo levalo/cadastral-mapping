@@ -5,7 +5,7 @@ const fromProjection = "+proj=utm +zone=38 +ellps=WGS84 +datum=WGS84 +units=m +n
 const useProjection = () => {
     const projection = proj4(fromProjection)
     
-    const project = (coordinates: [ number, number ]) => projection.inverse(coordinates).reverse() as [ number, number ]
+    const project = (coordinates: number[]) => projection.inverse([coordinates[0], coordinates[1]]).reverse() as [ number, number ]
 
     return {
         project
