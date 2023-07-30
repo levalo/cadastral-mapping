@@ -1,0 +1,188 @@
+{
+    "railway": {
+        "type": "LineString",
+        "options": {
+            "color": "#fff",
+            "weight": 2
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "color": "#b80000",
+                    "weight": 6
+                }
+            }
+        ]
+    },
+    "concreteFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#b8a15c",
+            "weight": 1
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "dashArray": [ 1, 20 ],
+                    "color": "#b8a15c",
+                    "weight": 4
+                }
+            }
+        ]
+    },
+    "easement": {
+        "type": "LineString",
+        "options": {
+            "color": "#723947",
+            "weight": 2
+        }
+    },
+    "metalFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#dbdbdb",
+            "weight": 2
+        }
+    },
+    "woodenFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#00ff00",
+            "weight": 2
+        }
+    },
+    "retainingWall": {
+        "type": "LineString",
+        "options": {
+            "color": "#a5dd00",
+            "weight": 1
+        }
+    },
+    "curbside": {
+        "type": "LineString",
+        "options": {
+            "color": "#000",
+            "weight": 2
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "dashArray": [ 1, 20 ],
+                    "color": "#000",
+                    "weight": 4
+                }
+            }
+        ]
+    },
+    "roadOutline": {
+        "type": "LineString",
+        "options": {
+            "color": "#000",
+            "weight": 2
+        }
+    },
+    "flat": {
+        "type": "LineString",
+        "options": {
+            "color": "#ffbf7f",
+            "weight": 2
+        }
+    },
+    "pipe": {
+        "type": "LineString",
+        "options": {
+            "color": "#00ffff",
+            "weight": 2
+        }
+    },
+    "gasPipe": {
+        "type": "LineString",
+        "options": {
+            "color": "#ff7f00",
+            "weight": 2,
+            "dashArray": [1, 20]
+        }
+    },
+    "powerCord": {
+        "type": "LineString",
+        "options": {
+            "color": "#ff0000",
+            "weight": 2
+        }
+    },
+    "sewage": {
+        "type": "LineString",
+        "options": {
+            "color": "#dd0037",
+            "weight": 2
+        }
+    },
+    "waterPipe": {
+        "type": "LineString",
+        "options": {
+            "color": "#0000ff",
+            "weight": 2,
+            "dashArray": [1, 20]
+        }
+    },
+    "communication": {
+        "type": "LineString",
+        "options": {
+            "color": "#ffff00",
+            "weight": 2
+        }
+    },
+    "livingFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#00ff00",
+            "weight": 2,
+            "dashArray": [4, 6]
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "color": "#000",
+                    "weight": 2,
+                    "dashArray": [1, 2]
+                }
+            }
+        ]
+    },
+    "fruitTree": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/fruit-tree.svg",
+            "size": 20,
+            "anchor": [10, 20]
+        }
+    },
+    "shed": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/shed.svg",
+            "size": [22, 14],
+            "anchor": [11, 7]
+        }
+    },
+    "stair": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/stair.svg",
+            "size": [26, 14],
+            "anchor": [13, 7]
+        }
+    },
+    "ark": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/ark.svg",
+            "size": [22, 14],
+            "anchor": [11, 7]
+        }
+    }
+}
