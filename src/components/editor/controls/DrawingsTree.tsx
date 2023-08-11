@@ -8,7 +8,7 @@ import { MinusCircleOutlined } from "@ant-design/icons"
 interface DrawingsTreeProps { }
 
 const DrawingsTree: FC<DrawingsTreeProps> = (props) => {
-    const { features, dispatchRemoveDrawing } = useDrawings()
+    const { features, removeDrawing } = useDrawings()
 
     const items: DataNode[] = useMemo(() => features.map(({ root, decorators }, i) => ({
         key: i,
@@ -25,7 +25,7 @@ const DrawingsTree: FC<DrawingsTreeProps> = (props) => {
                     height={20} 
                 />
                 <Typography.Text>{root.properties.title}</Typography.Text>
-                <Button onClick={() => dispatchRemoveDrawing(root.id! as string)} type='link'>
+                <Button onClick={() => removeDrawing(root.id! as string)} type='link'>
                     <MinusCircleOutlined style={{ color: '#f00' }} />
                 </Button>
             </Space>

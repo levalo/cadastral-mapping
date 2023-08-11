@@ -1,3 +1,17 @@
+declare module '@turf/interpolate' {
+    export default function interpolate(
+        points: FeatureCollection<Point>,
+        cellSize: number,
+        options?: {
+          gridType?: "point"
+          property?: string
+          units?: Units
+          weight?: number
+          mask?: Feature<Polygon | MultiPolygon>
+        }
+    ): FeatureCollection<Point>
+}
+
 declare module 'leaflet' {
 
     class SVGCustom extends SVG { }

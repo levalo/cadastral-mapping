@@ -5,7 +5,7 @@ import { PolylineOptions, ImageMarkerOptions } from "leaflet"
 interface DrawingCategoriesProps extends PropsWithChildren { }
 
 export interface DrawingCategory {
-    type: DrawingGeometryTypes
+    type: DrawingGeometryTypes | "MultiLineString"
     options: PolylineOptions | ImageMarkerOptions
     decorators?: Array<{ type: DrawingGeometryTypes, options: PolylineOptions | ImageMarkerOptions }>
 }

@@ -55,7 +55,7 @@ const DrawingIcon: FC<DrawingIconProps> = ({ type, options, decorators = [], ...
     return (
         <svg {...props} viewBox="0 0 100 100">
             {decorators.length > 0 && <Decorators decorators={decorators} />}
-            {type === 'LineString' && <LineIcon options={options as PolylineOptions} />}
+            {(type === 'LineString' || type === 'MultiLineString') && <LineIcon options={options as PolylineOptions} />}
             {type === 'MultiPoint' && <PointIcon options={options as ImageMarkerOptions} />}
         </svg>
     )

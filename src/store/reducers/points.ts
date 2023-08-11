@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { createIdOf } from "../../util"
+import { createIdOf } from "../../tools/utils"
 import { Feature, FeatureCollection, Point } from "geojson"
 
 export type PointType = Feature<Point, PointProperties>

@@ -153,6 +153,13 @@
             }
         ]
     },
+    "isohypse": {
+        "type": "MultiLineString",
+        "options": {
+            "color": "#daab7d",
+            "weight": 2
+        }
+    },
     "fruitTree": {
         "type": "MultiPoint",
         "options": {

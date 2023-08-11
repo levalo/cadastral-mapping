@@ -6,7 +6,6 @@ import PointsTable from "../controls/PointsTable"
 import useDrawings from "../../../hooks/useDrawings"
 import usePoints from "../../../hooks/usePoints"
 import { Feature, Point } from "geojson"
-import { DecoratorType, DrawingType } from "../../../store/reducers/drawings"
 import { DrawingCategory } from "../../DrawingCategories"
 
 interface DrawingFormProps {
@@ -15,7 +14,7 @@ interface DrawingFormProps {
 }
 
 const DrawingForm: FC<DrawingFormProps> = ({ points, onSuccess }) => {
-    const { dispatchAddDrawing } = useDrawings()
+    const { addDrawing } = useDrawings()
     const { filterByUid } = usePoints()
 
     const selectedPoints = useMemo(() => filterByUid(points), [ points ])
@@ -23,34 +22,7 @@ const DrawingForm: FC<DrawingFormProps> = ({ points, onSuccess }) => {
     const handleFinish = (data: { name: string, category: DrawingCategory, points: Feature<Point, PointProperties>[] }) => {
         if (data.points.length === 0) return
 
-        const root: DrawingType = {
-            type: 'Feature',
-            geometry: {
-                type: data.category.type,
-                coordinates: data.points.map(x => x.geometry.coordinates)
-            },
-            properties: {
-                ...data.category.options,
-                title: data.name
-            }
-        }
-
-        const decorators: DecoratorType[] = []
-
-        if (data.category.decorators) {
-            decorators.push(...data.category.decorators.map(x => ({
-                type: 'Feature',
-                geometry: {
-                    type: x.type,
-                    coordinates: data.points.map(x => x.geometry.coordinates)
-                },
-                properties: {
-                    ...x.options
-                }
-            }) as DecoratorType))
-        }
-
-        dispatchAddDrawing({ root, decorators })
+        addDrawing(data.name, data.category, data.points)
 
         onSuccess()
     }

@@ -17,6 +17,7 @@ const LinesDrawingLayer: FC<LinesDrawingLayerProps> = (props) => {
             {features.map((x, i) => (
                 <Polyline key={i} positions={(x.root.geometry as LineString).coordinates.map(p => project(p))} {...x.root.properties}>
                     {x.decorators.map((y, j) => <DrawingDecorators key={y.id} decorator={y} />)}
+                    {x.isolines.map((y, j) => <Polyline key={y.id} positions={(y.geometry as LineString).coordinates.map(p => project(p))} {...x.root.properties} />)}
                 </Polyline>
             ))}
         </Fragment>
