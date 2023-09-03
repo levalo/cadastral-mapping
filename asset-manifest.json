@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/cadastral-mapping/static/css/main.953ee64b.css",
-    "main.js": "/cadastral-mapping/static/js/main.83b99c73.js",
+    "main.css": "/cadastral-mapping/static/css/main.f7885874.css",
+    "main.js": "/cadastral-mapping/static/js/main.34129dc8.js",
     "static/js/787.2e47fa12.chunk.js": "/cadastral-mapping/static/js/787.2e47fa12.chunk.js",
     "index.html": "/cadastral-mapping/index.html",
-    "main.953ee64b.css.map": "/cadastral-mapping/static/css/main.953ee64b.css.map",
-    "main.83b99c73.js.map": "/cadastral-mapping/static/js/main.83b99c73.js.map",
+    "main.f7885874.css.map": "/cadastral-mapping/static/css/main.f7885874.css.map",
+    "main.34129dc8.js.map": "/cadastral-mapping/static/js/main.34129dc8.js.map",
     "787.2e47fa12.chunk.js.map": "/cadastral-mapping/static/js/787.2e47fa12.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.953ee64b.css",
-    "static/js/main.83b99c73.js"
+    "static/css/main.f7885874.css",
+    "static/js/main.34129dc8.js"
   ]
 }
