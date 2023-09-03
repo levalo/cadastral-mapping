@@ -11,7 +11,7 @@ const Icon: FC<IconProps & Partial<CustomIconComponentProps>> = ({ name, width, 
         <AntIcon 
             component={() =>
                 <svg width={width} height={height}>
-                    <image href={`cadastral-mapping/icons/${name}.svg`} width={width} height={height} />
+                    <image href={`/cadastral-mapping/icons/${name}.svg`} width={width} height={height} />
                 </svg>
             }
         />
