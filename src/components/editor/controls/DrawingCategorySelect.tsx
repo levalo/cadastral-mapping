@@ -1,21 +1,21 @@
-import { FC, useContext, useMemo, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import { Select, Space, Typography } from "antd"
 import { DefaultOptionType, SelectProps } from "antd/es/select"
 import DrawingIcon from "../../DrawingIcon"
-import { DrawingCategory, drawingCategoriesContext } from "../../DrawingCategories"
+import { useDrawingCategories } from "../../../contexts/DrawingCategoriesContext"
 
 interface DrawingCategorySelectProps extends Omit<SelectProps, "options"> {
+    categoryGroup: 'drawing' | 'contour',
     readOnly?: boolean,
     value?: DrawingCategory,
-    onChange?: (event: { target: { value: DrawingCategory | undefined } }) => void
+    onChange?: (event: { target: { value: { name: string, data: DrawingCategory | undefined} } }) => void
 }
 
-const DrawingCategorySelect: FC<DrawingCategorySelectProps> = (props) => {
+const DrawingCategorySelect: FC<DrawingCategorySelectProps> = ({ categoryGroup, ...props }) => {
     const [ value, setValue ] = useState<string | undefined>(props.defaultValue)
+    const categories = useDrawingCategories()
 
-    const categories = useContext(drawingCategoriesContext)
-
-    const categoryItems: DefaultOptionType[] = useMemo(() => Object.keys(categories).map(x => ({
+    const items: DefaultOptionType[] = useMemo(() => Object.keys(categories).filter(x => categories[x].group === categoryGroup).map(x => ({
         value: x,
         label: (
             <Space>
@@ -30,12 +30,12 @@ const DrawingCategorySelect: FC<DrawingCategorySelectProps> = (props) => {
         setValue(data)
 
         if(props.onChange) {
-            props.onChange({ target: { value: categories[data] }})
+            props.onChange({ target: { value: { name: data, data: categories[data] } }})
         }
     }
 
     return (
-        <Select options={categoryItems} {...props} onChange={handleChange} value={value}/>
+        <Select options={items} {...props} onChange={handleChange} value={value}/>
     )
 }
 

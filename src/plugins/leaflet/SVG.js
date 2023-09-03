@@ -65,7 +65,13 @@ L.SVG.include({
 		if (!layer._tooltip) {
 			layer._tooltip = create('text');
 
+			if (layer.options.interactive) {
+				layer._tooltip.classList.add('leaflet-interactive')
+			}
+
 			this._rootGroup.appendChild(layer._tooltip);
+
+			layer.addInteractiveTarget(layer._tooltip);
 		}
 
 		layer._tooltip.setAttribute('x', p.x + ox);

@@ -85,7 +85,7 @@ const PointsTable: FC<PointsTableProps> = ({ value: defaultValue, readOnly, onCh
             {!readOnly && (
                 <div style={{ float: 'right', marginTop: '-40px' }}>
                     <Upload showUploadList={false} multiple={false} maxCount={1} onChange={handleImport} beforeUpload={() => false} accept=".txt">
-                        <Button type='link' block icon={<PlusOutlined />} />
+                        <Button htmlType='button' type='link' block icon={<PlusOutlined />} />
                     </Upload>
                 </div>
             )}

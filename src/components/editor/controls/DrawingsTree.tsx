@@ -4,33 +4,34 @@ import useDrawings from "../../../hooks/useDrawings"
 import { DataNode } from "antd/es/tree"
 import DrawingIcon from "../../DrawingIcon"
 import { MinusCircleOutlined } from "@ant-design/icons"
+import { useDrawingCategories } from "../../../contexts/DrawingCategoriesContext"
 
 interface DrawingsTreeProps { }
 
 const DrawingsTree: FC<DrawingsTreeProps> = (props) => {
-    const { features, removeDrawing } = useDrawings()
+    const { drawings, removeDrawing } = useDrawings()
+    const categories = useDrawingCategories()
 
-    const items: DataNode[] = useMemo(() => features.map(({ root, decorators }, i) => ({
-        key: i,
+    const items: DataNode[] = useMemo(() => Object.keys(categories).map(x => ({
+        key: x,
         title: (
             <Space>
-                <DrawingIcon 
-                    type={root.geometry.type} 
-                    options={root.properties} 
-                    decorators={decorators.map(x => ({ 
-                        type: x.geometry.type, 
-                        options: x.properties 
-                    }))}
-                    width={20} 
-                    height={20} 
-                />
-                <Typography.Text>{root.properties.title}</Typography.Text>
-                <Button onClick={() => removeDrawing(root.id! as string)} type='link'>
-                    <MinusCircleOutlined style={{ color: '#f00' }} />
-                </Button>
+                <DrawingIcon {...categories[x]} width={20} height={20} />
+                <Typography.Text>{x}</Typography.Text>
             </Space>
         ),
-    })), [ features ])
+        children: drawings.filter(y => y.value.features[0].properties.category === x).map(y => ({
+            key: y.id,
+            title: (
+                <Space>
+                    <Typography.Text>{y.value.features[0].properties.title}</Typography.Text>
+                    <Button onClick={() => removeDrawing(y.id)} type='link'>
+                        <MinusCircleOutlined style={{ color: '#f00' }} />
+                    </Button>
+                </Space>
+            )
+        }))
+    })).filter(x => x.children.length > 0), [ drawings, categories ])
 
     return (
         <Tree treeData={items} />

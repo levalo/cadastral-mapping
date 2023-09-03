@@ -27,7 +27,7 @@ const PanelContainer: FC<PanelContainerProps> = ({ position, children, className
 
     return (
         <div className={positionClass}>
-            <div className={`leaflet-control ${className}`} {...props} ref={controlRef}>
+            <div className={`leaflet-control ${className || ''}`} {...props} ref={controlRef}>
                 { children }
             </div>
         </div>

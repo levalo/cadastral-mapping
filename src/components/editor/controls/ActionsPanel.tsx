@@ -1,16 +1,14 @@
-import { FC, useContext, useMemo } from "react"
+import { FC, useMemo } from "react"
 import { Grid, Menu, MenuProps } from "antd"
-import { editorContext } from "../Editor"
 import { FileAddOutlined, FolderOpenOutlined, PlusOutlined, SelectOutlined } from "@ant-design/icons"
-import PanelContainer from "./PanelContainer"
+import { useEditorContext } from "../../../contexts/EditorContext"
+import { DrawerTypes } from "../../../store/reducers/editor"
 
-interface ActionsPanelProps { 
-    
-}
+interface ActionsPanelProps { }
 
 const ActionsPanel: FC<ActionsPanelProps> = (props) => {
+    const editor = useEditorContext()
     const { md } = Grid.useBreakpoint()
-    const editor = useContext(editorContext)
 
     const menuItems: MenuProps['items'] = useMemo(() => [
         {
@@ -35,7 +33,7 @@ const ActionsPanel: FC<ActionsPanelProps> = (props) => {
                 {
                     key: 4,
                     label: "Import Points",
-                    onClick: () => editor?.openDrawer("points")
+                    onClick: () => editor.openDrawer(DrawerTypes.POINTS)
                 }
             ]
         },
@@ -47,21 +45,24 @@ const ActionsPanel: FC<ActionsPanelProps> = (props) => {
                 {
                     key: 6,
                     label: "Add Feature",
-                    onClick: () => editor?.openDrawer("feature")
+                    onClick: () => editor.openDrawer(DrawerTypes.DRAWING)
                 },
                 {
                     key: 7,
+                    label: "Add Contour",
+                    onClick: () => editor.openDrawer(DrawerTypes.CONTOUR)
+                },
+                {
+                    key: 8,
                     label: "Clear Selection",
-                    onClick: () => editor?.setSelectedPoints([])
+                    onClick: () => editor.clearSelectedPoints()
                 }
             ]
         }
     ], [ editor ])
 
     return (
-        <PanelContainer position="topleft">
-            <Menu className="actions-panel" items={menuItems} selectable={false} mode="horizontal" style={{ width: md ? 748 : 'auto' }} />
-        </PanelContainer>
+        <Menu className="actions-panel" items={menuItems} selectable={false} mode="horizontal" style={{ maxWidth: md ? 240 : 'auto' }} />
     )
 }
 

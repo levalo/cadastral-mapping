@@ -1,11 +1,9 @@
-import ActionsPanel from "./ActionsPanel"
-import DrawingsTree from "./DrawingsTree"
-import LayersPanel from "./LayersPanel"
-import PointsTree from "./PointsTree"
+import DrawingCategorySelect from "./DrawingCategorySelect"
+import ProjectionSelect from "./ProjectionSelect"
+import UIControls from "./UIControls"
 
 export {
-    PointsTree,
-    DrawingsTree as FeaturesTree,
-    ActionsPanel,
-    LayersPanel
+    UIControls,
+    ProjectionSelect,
+    DrawingCategorySelect
 }

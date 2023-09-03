@@ -1,28 +1,66 @@
 import { FC, useMemo } from "react"
 import { Button, Form, Input } from "antd"
-import DrawingCategorySelect from "../controls/DrawingCategorySelect"
+import { Feature, FeatureCollection, Point } from "geojson"
 import FormItem from "antd/es/form/FormItem"
 import PointsTable from "../controls/PointsTable"
 import useDrawings from "../../../hooks/useDrawings"
-import usePoints from "../../../hooks/usePoints"
-import { Feature, Point } from "geojson"
-import { DrawingCategory } from "../../DrawingCategories"
+import { useEditorContext } from "../../../contexts/EditorContext"
+import { DrawingGeometries, DrawingProperties } from "../../../store/reducers/drawings"
+import { DrawingCategorySelect } from "../controls"
+import { ToolTypes } from "../../../store/reducers/editor"
 
 interface DrawingFormProps {
-    points: string[]
     onSuccess: () => void
 }
 
-const DrawingForm: FC<DrawingFormProps> = ({ points, onSuccess }) => {
+const DrawingForm: FC<DrawingFormProps> = ({ onSuccess }) => {
     const { addDrawing } = useDrawings()
-    const { filterByUid } = usePoints()
+    const { selectedPoints, activeTool } = useEditorContext()
 
-    const selectedPoints = useMemo(() => filterByUid(points), [ points ])
-
-    const handleFinish = (data: { name: string, category: DrawingCategory, points: Feature<Point, PointProperties>[] }) => {
+    const handleFinish = (data: { name: string, category: { name: string, data: DrawingCategory }, points: Feature<Point, PointProperties>[] }) => {
         if (data.points.length === 0) return
 
-        addDrawing(data.name, data.category, data.points)
+        //if polygon selection mode retry first point at end
+        if (activeTool === ToolTypes.POLYGON) {
+            data.points.push(data.points[0])
+        }
+
+        const { name, category, points } = data
+
+        const collection: FeatureCollection<DrawingGeometries, DrawingProperties> = {
+            type: 'FeatureCollection',
+            features: []
+        }
+
+        collection.features.push({
+            type: 'Feature',
+            geometry: {
+                type: category.data.type,
+                coordinates: data.points.map(x => x.geometry.coordinates)
+            },
+            properties: {
+                ...category.data.options,
+                title: name,
+                category: category.name 
+            }
+        })
+
+        if (category.data.decorators) {
+            collection.features.push(...category.data.decorators.map(x => ({
+                type: 'Feature',
+                geometry: {
+                    type: x.type,
+                    coordinates: points.map(x => x.geometry.coordinates)
+                },
+                properties: {
+                    ...x.options,
+                    title: name,
+                    category: category.name 
+                }
+            }) as Feature<DrawingGeometries, DrawingProperties> ))
+        }
+
+        addDrawing([collection])
 
         onSuccess()
     }
@@ -33,7 +71,7 @@ const DrawingForm: FC<DrawingFormProps> = ({ points, onSuccess }) => {
                 <Input />
             </FormItem>
             <FormItem label="Type" name="category" rules={[{ required: true }]}>
-                <DrawingCategorySelect />
+                <DrawingCategorySelect categoryGroup="drawing" />
             </FormItem>
             <FormItem label="Points" name="points" rules={[{ required: true }]}>
                 <PointsTable readOnly />

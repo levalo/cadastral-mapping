@@ -51,6 +51,65 @@ declare module 'leaflet' {
     }
 
     function imageMarker(latLng: LatLngExpression, options: ImageMarkerOptions): ImageMarker
+
+    interface MapOptions {
+        preferCanvas?: boolean | undefined
+
+        // Control options
+        attributionControl?: boolean | undefined
+        zoomControl?: boolean | undefined
+
+        // Interaction options
+        closePopupOnClick?: boolean | undefined
+        zoomSnap?: number | undefined
+        zoomDelta?: number | undefined
+        trackResize?: boolean | undefined
+        boxZoom?: boolean | undefined
+        doubleClickZoom?: Zoom | undefined
+        dragging?: boolean | undefined
+
+        // Map state options
+        crs?: CRS | undefined
+        center?: LatLngExpression | undefined
+        zoom?: number | undefined
+        minZoom?: number | undefined
+        maxZoom?: number | undefined
+        layers?: Layer[] | undefined
+        maxBounds?: LatLngBoundsExpression | undefined
+        renderer?: Renderer | undefined
+
+        // Animation options
+        fadeAnimation?: boolean | undefined
+        markerZoomAnimation?: boolean | undefined
+        transform3DLimit?: number | undefined
+        zoomAnimation?: boolean | undefined
+        zoomAnimationThreshold?: number | undefined
+
+        // Panning inertia options
+        inertia?: boolean | undefined
+        inertiaDeceleration?: number | undefined
+        inertiaMaxSpeed?: number | undefined
+        easeLinearity?: number | undefined
+        worldCopyJump?: boolean | undefined
+        maxBoundsViscosity?: number | undefined
+
+        // Keyboard navigation options
+        keyboard?: boolean | undefined
+        keyboardPanDelta?: number | undefined
+
+        // Mousewheel options
+        scrollWheelZoom?: Zoom | undefined
+        wheelDebounceTime?: number | undefined
+        wheelPxPerZoomLevel?: number | undefined
+
+        // Touch interaction options
+        tap?: boolean | undefined
+        tapTolerance?: number | undefined
+        touchZoom?: Zoom | undefined
+        bounceAtZoomLimits?: boolean | undefined
+
+        continuousWorld?: boolean | undefined
+    }
 }
 
 declare module "react-leaflet" {
@@ -123,6 +182,13 @@ declare global {
     }
 
     type DrawingGeometryTypes = "MultiPoint" | "LineString"
+
+    interface DrawingCategory {
+        type: DrawingGeometryTypes
+        options: PolylineOptions | ImageMarkerOptions
+        decorators?: Array<{ type: DrawingGeometryTypes, options: PolylineOptions | ImageMarkerOptions }>
+        group: 'drawing' | 'contour'
+    }
 }
 
 export {}

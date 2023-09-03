@@ -1,16 +1,20 @@
 import tin from "@turf/tin"
+import Decimal from "decimal.js"
 import { Feature, FeatureCollection, LineString, Point, Polygon } from "geojson"
+import proj4 from "proj4"
 
-function findPointWithZ(zTarget: number, x0: number, y0: number, z0: number, x1: number, y1: number, z1: number) {
-    if (z0 === z1) {
-        return [ x0, y0, z0 ]
+function findPointWithZ(_zTarget: number, _x0: number, _y0: number, _z0: number, _x1: number, _y1: number, _z1: number) {
+    const zTarget = new Decimal(_zTarget), x0 = new Decimal(_x0), y0 = new Decimal(_y0), z0 = new Decimal(_z0), x1 = new Decimal(_x1), y1 = new Decimal(_y1), z1 = new Decimal(_z1)
+
+    if (z0.eq(z1)) {
+        return [ _x0, _y0, _z0 ]
     }
 
-    const t = (zTarget - z0) / (z1 - z0)
-    const x = x0 + t * (x1 - x0)
-    const y = y0 + t * (y1 - y0)
+    const t = zTarget.minus(z0).div(z1.minus(z0))
+    const x = x0.add(t.mul(x1.minus(x0)))
+    const y = y0.add(t.mul(y1.minus(y0)))
     
-    return [ x, y, zTarget ]
+    return [ x.toNumber(), y.toNumber(), zTarget.toNumber() ]
 }
 
 function interpolateTriangleElevationTicks(triangle: Feature<Polygon>, breaks: number[]) {
@@ -62,8 +66,8 @@ function interpolateTriangleElevationTicks(triangle: Feature<Polygon>, breaks: n
     return result
 }
 
-function generateContours(triangles: number[][][]): Feature<LineString, any>[] {
-    const result: number[][][] = []
+export function createIsolines(triangles: number[][][], properties: any): FeatureCollection<LineString, any>[] {
+    const grid: number[][][] = []
 
     let rootIndex = 0
     let currentContourIndex = 0
@@ -72,8 +76,8 @@ function generateContours(triangles: number[][][]): Feature<LineString, any>[] {
     while(rootIndex < triangles.length) {
 
         // continue line from last point
-        if (result[currentContourIndex] && result[currentContourIndex].length > 0) {
-            const lastPoint = result[currentContourIndex][result[currentContourIndex].length - 1]
+        if (grid[currentContourIndex] && grid[currentContourIndex].length > 0) {
+            const lastPoint = grid[currentContourIndex][grid[currentContourIndex].length - 1]
 
             // move next sibling triangle
             currentTriangleIndex = triangles.findIndex(x => x.find(y => y[0] === lastPoint[0] && y[1] === lastPoint[1]))
@@ -92,7 +96,7 @@ function generateContours(triangles: number[][][]): Feature<LineString, any>[] {
 
             // if not found end point into current triangle reset line
             if (endPointIndex < 0) {
-                result[currentContourIndex] = []
+                grid[currentContourIndex] = []
 
                 continue
             }
@@ -101,7 +105,7 @@ function generateContours(triangles: number[][][]): Feature<LineString, any>[] {
             // remove point from loop
             triangles[currentTriangleIndex!].splice(endPointIndex, 1)
 
-            result[currentContourIndex].push(endPoint)
+            grid[currentContourIndex].push(endPoint)
 
             continue
         }
@@ -127,21 +131,34 @@ function generateContours(triangles: number[][][]): Feature<LineString, any>[] {
 
         triangles[rootIndex].splice(endPointIndex, 1)
 
-        result[currentContourIndex] = [ startPoint, endPoint ]
+        grid[currentContourIndex] = [ startPoint, endPoint ]
     }
 
-    return result.filter(x => x.length > 1).map(x => ({
-        type: 'Feature',
-        geometry: {
-            type: 'LineString',
-            coordinates: x
-        },
-        properties: {}
-    }) as Feature<LineString, any>)
+    const group = grid.filter(x => x.length > 1).reduce<Record<number, number[][][]>>((acc, x) => ({ ...acc, [x[0][2]]: [...(acc[x[0][2]] || []), x ] }), {})
+
+    const result = Object.keys(group).map(x => group[Number(x)])
+
+    return result.map(x => ({
+        type: "FeatureCollection",
+        features: x.map(y => ({
+            type: 'Feature',
+            geometry: {
+                type: 'LineString',
+                coordinates: y
+            },
+            properties: {
+                ...properties,
+                title: y[0][2],
+                tooltip: y[0][2]
+            }
+        }))
+    }))
 }
 
-export function createContourMap(points: Feature<Point, PointProperties>[]) {
-    const breaks = Array.from(new Set(points.filter(x => x.properties.elevation).map(x => Math.round(x.properties.elevation! * 5) / 5)))
+export function interpolateElevations(points: Feature<Point, PointProperties>[], _min: number, _max: number, _tick: number) {
+    const breaks = []
+
+    for(let i = new Decimal(_min); i.lte(_max); i = i.add(_tick)) breaks.push(i.toNumber())
 
     const pointsCollection: FeatureCollection<Point, PointProperties> = {
         type: 'FeatureCollection',
@@ -158,8 +175,16 @@ export function createContourMap(points: Feature<Point, PointProperties>[]) {
 
         if (triangleTicks.length) ticks.push(triangleTicks)
     }
-
-    const result = generateContours(ticks)
     
-    return result
+    return ticks
+}
+
+export function projection(param: string) {
+    const proj = proj4(param)
+    
+    const project = (coordinates: number[]) => proj.inverse([coordinates[0], coordinates[1]]).reverse() as [ number, number ]
+
+    return {
+        project
+    }
 }

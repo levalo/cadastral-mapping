@@ -13,22 +13,22 @@ export const pointsSlice = createSlice({
     name: "points",
     initialState,
     reducers: {
-        addPoints: (state, action: PayloadAction<PointType[]>) => {
+        addPointsAction: (state, action: PayloadAction<PointType[]>) => {
             action.payload.forEach(x => {
                 x.id = createIdOf(state.features)
 
                 state.features.push(x)
             })
         },
-        removePoints: (state, action: PayloadAction<string[]>) => {
-            state.features = state.features.filter(x => !action.payload.includes(x.id! as string))
+        removePointsAction: (state, action: PayloadAction<PointType[]>) => {
+            state.features = state.features.filter(x => !action.payload.find(y => y.id === x.id!))
         },
-        removePointsGroup: (state, action: PayloadAction<string>) => {
+        removePointsByGroupAction: (state, action: PayloadAction<string>) => {
             state.features = state.features.filter(x => x.properties.group !== action.payload)
         }
     }
 })
 
-export const { addPoints, removePoints, removePointsGroup } = pointsSlice.actions
+export const { addPointsAction, removePointsAction, removePointsByGroupAction } = pointsSlice.actions
 
 export default pointsSlice.reducer

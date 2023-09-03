@@ -1,6 +1,5 @@
 import { PolylineOptions, ImageMarkerOptions } from "leaflet"
 import { ComponentProps, FC, Fragment } from "react"
-import { DrawingCategory } from "./DrawingCategories"
 
 interface DrawingIconProps extends Omit<ComponentProps<'svg'>, 'type'>, DrawingCategory { }
 
@@ -54,9 +53,9 @@ const DrawingIcon: FC<DrawingIconProps> = ({ type, options, decorators = [], ...
 
     return (
         <svg {...props} viewBox="0 0 100 100">
-            {decorators.length > 0 && <Decorators decorators={decorators} />}
-            {(type === 'LineString' || type === 'MultiLineString') && <LineIcon options={options as PolylineOptions} />}
+            {type === 'LineString' && <LineIcon options={options as PolylineOptions} />}
             {type === 'MultiPoint' && <PointIcon options={options as ImageMarkerOptions} />}
+            {decorators.length > 0 && <Decorators decorators={decorators} />}
         </svg>
     )
 }

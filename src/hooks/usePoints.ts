@@ -1,30 +1,31 @@
 import { useSelector } from "react-redux"
 import { RootState, useAppDispatch } from "../store"
 
-import { PointType, addPoints, removePoints, removePointsGroup } from "../store/reducers/points"
+import { PointType, addPointsAction, removePointsAction, removePointsByGroupAction } from "../store/reducers/points"
+import { Feature, Point } from "geojson"
 
 const usePoints = () => {
     const dispatch = useAppDispatch()
 
-    const { features } = useSelector(({ points }: RootState) => points)
+    const { features: points } = useSelector(({ points }: RootState) => points.present)
 
-    const groups = () => features.reduce<Record<string, Array<PointType & { index: number }>>>((acc, x, i) => ({ ...acc, [x.properties.group]: [...(acc[x.properties.group] || []), { ...x, index: i }] }), {})
+    const groups = () => points.reduce<Record<string, Array<PointType & { index: number }>>>((acc, x, i) => ({ ...acc, [x.properties.group]: [...(acc[x.properties.group] || []), { ...x, index: i }] }), {})
 
-    const filterByUid = (ids: string[]) => features.filter(x => ids.includes(x.id! as string))
+    const filterByUid = (ids: string[]) => ids.map(x => points.find(y => y.id === x)).filter(x => x !== undefined) as Feature<Point, PointProperties>[]
 
-    const dispatchAddPoints = (points: PointType[]) => dispatch(addPoints(points))
+    const addPoints = (points: PointType[]) => dispatch(addPointsAction(points))
 
-    const dispatchRemovePoints = (ids: string[]) => dispatch(removePoints(ids))
+    const removePoints = (points: PointType[]) => dispatch(removePointsAction(points))
 
-    const dispatchRemovePointsGroup = (group: string) => dispatch(removePointsGroup(group))
+    const removePointsByGroup = (group: string) => dispatch(removePointsByGroupAction(group))
 
     return {
-        features,
+        points,
         groups,
         filterByUid,
-        dispatchAddPoints,
-        dispatchRemovePoints,
-        dispatchRemovePointsGroup
+        addPoints,
+        removePoints,
+        removePointsByGroup
     }
 }
 
