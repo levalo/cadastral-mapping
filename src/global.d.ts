@@ -1,20 +1,20 @@
+declare module '@turf/interpolate' {
+    export default function interpolate(
+        points: FeatureCollection<Point>,
+        cellSize: number,
+        options?: {
+          gridType?: "point"
+          property?: string
+          units?: Units
+          weight?: number
+          mask?: Feature<Polygon | MultiPolygon>
+        }
+    ): FeatureCollection<Point>
+}
 
 declare module 'leaflet' {
 
     class SVGCustom extends SVG { }
-
-    interface CustomPolylineOptions extends PolylineOptions {
-        decorators?: PolylineOptions[]
-    }
-
-    // interface MarkerOptions extends PathOptions {
-    //     radius?: number | undefined
-    //     tooltip?: {
-    //         text: string,
-    //         offsetX?: number,
-    //         offsetY?: number
-    //     }
-    // }
 
     interface ImageMarkerOptions {
         href: string
@@ -52,9 +52,63 @@ declare module 'leaflet' {
 
     function imageMarker(latLng: LatLngExpression, options: ImageMarkerOptions): ImageMarker
 
-    interface FeatureCategory {
-        type: FeatureType,
-        options: CustomPolylineOptions | ImageMarkerOptions | PolygonOptions
+    interface MapOptions {
+        preferCanvas?: boolean | undefined
+
+        // Control options
+        attributionControl?: boolean | undefined
+        zoomControl?: boolean | undefined
+
+        // Interaction options
+        closePopupOnClick?: boolean | undefined
+        zoomSnap?: number | undefined
+        zoomDelta?: number | undefined
+        trackResize?: boolean | undefined
+        boxZoom?: boolean | undefined
+        doubleClickZoom?: Zoom | undefined
+        dragging?: boolean | undefined
+
+        // Map state options
+        crs?: CRS | undefined
+        center?: LatLngExpression | undefined
+        zoom?: number | undefined
+        minZoom?: number | undefined
+        maxZoom?: number | undefined
+        layers?: Layer[] | undefined
+        maxBounds?: LatLngBoundsExpression | undefined
+        renderer?: Renderer | undefined
+
+        // Animation options
+        fadeAnimation?: boolean | undefined
+        markerZoomAnimation?: boolean | undefined
+        transform3DLimit?: number | undefined
+        zoomAnimation?: boolean | undefined
+        zoomAnimationThreshold?: number | undefined
+
+        // Panning inertia options
+        inertia?: boolean | undefined
+        inertiaDeceleration?: number | undefined
+        inertiaMaxSpeed?: number | undefined
+        easeLinearity?: number | undefined
+        worldCopyJump?: boolean | undefined
+        maxBoundsViscosity?: number | undefined
+
+        // Keyboard navigation options
+        keyboard?: boolean | undefined
+        keyboardPanDelta?: number | undefined
+
+        // Mousewheel options
+        scrollWheelZoom?: Zoom | undefined
+        wheelDebounceTime?: number | undefined
+        wheelPxPerZoomLevel?: number | undefined
+
+        // Touch interaction options
+        tap?: boolean | undefined
+        tapTolerance?: number | undefined
+        touchZoom?: Zoom | undefined
+        bounceAtZoomLimits?: boolean | undefined
+
+        continuousWorld?: boolean | undefined
     }
 }
 
@@ -72,8 +126,6 @@ declare module "react-leaflet" {
 }
 
 declare global {
-
-    type FeatureType = 'line' | 'point' | 'polygon' | 'isohypse'
 
     // type PointsFeatureCategory = 
     //     'Ark' | // არკა
@@ -123,28 +175,19 @@ declare global {
     //     'Isohypse' | // იზოჰიფსი
     //     'MainIsohypse' // მთავარი იზოჰიფსი
 
-    // type FeatureCategory = PointsFeatureCategory | LineFeatureCategory | PolygonFeatureCategory | IsohypseFeatureCategory
 
-    interface Uid {
-        uid?: string
-    }
-
-    interface Point extends Uid {
-        x: number
-        y: number
-        z: number
+    interface PointProperties {
+        elevation?: number,
         group: string
     }
-    
-    interface Feature {
-        points: Point[]
-        category: string
-    }
-    
-    interface ProjectState {
-        points: Point[]
-        features: Feature[]
-        name: string
+
+    type DrawingGeometryTypes = "MultiPoint" | "LineString"
+
+    interface DrawingCategory {
+        type: DrawingGeometryTypes
+        options: PolylineOptions | ImageMarkerOptions
+        decorators?: Array<{ type: DrawingGeometryTypes, options: PolylineOptions | ImageMarkerOptions }>
+        group: 'drawing' | 'contour'
     }
 }
 

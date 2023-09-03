@@ -1,0 +1,224 @@
+{
+    "railway": {
+        "type": "LineString",
+        "options": {
+            "color": "#b80000",
+            "weight": 6
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "color": "#fff",
+                    "weight": 2
+                }
+            }
+        ],
+        "group": "drawing"
+    },
+    "concreteFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#b8a15c",
+            "weight": 1
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "dashArray": [ 1, 20 ],
+                    "color": "#b8a15c",
+                    "weight": 4
+                }
+            }
+        ],
+        "group": "drawing"
+    },
+    "easement": {
+        "type": "LineString",
+        "options": {
+            "color": "#723947",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "metalFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#dbdbdb",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "woodenFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#00ff00",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "retainingWall": {
+        "type": "LineString",
+        "options": {
+            "color": "#a5dd00",
+            "weight": 1
+        },
+        "group": "drawing"
+    },
+    "curbside": {
+        "type": "LineString",
+        "options": {
+            "color": "#000",
+            "weight": 2
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "dashArray": [ 1, 20 ],
+                    "color": "#000",
+                    "weight": 4
+                }
+            }
+        ],
+        "group": "drawing"
+    },
+    "roadOutline": {
+        "type": "LineString",
+        "options": {
+            "color": "#000",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "flat": {
+        "type": "LineString",
+        "options": {
+            "color": "#ffbf7f",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "pipe": {
+        "type": "LineString",
+        "options": {
+            "color": "#00ffff",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "gasPipe": {
+        "type": "LineString",
+        "options": {
+            "color": "#ff7f00",
+            "weight": 2,
+            "dashArray": [5, 10]
+        },
+        "group": "drawing"
+    },
+    "powerCord": {
+        "type": "LineString",
+        "options": {
+            "color": "#ff0000",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "sewage": {
+        "type": "LineString",
+        "options": {
+            "color": "#dd0037",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "waterPipe": {
+        "type": "LineString",
+        "options": {
+            "color": "#0000ff",
+            "weight": 2,
+            "dashArray": [5, 10]
+        },
+        "group": "drawing"
+    },
+    "communication": {
+        "type": "LineString",
+        "options": {
+            "color": "#ffff00",
+            "weight": 2
+        },
+        "group": "drawing"
+    },
+    "livingFence": {
+        "type": "LineString",
+        "options": {
+            "color": "#00ff00",
+            "weight": 2,
+            "dashArray": [4, 6]
+        },
+        "decorators": [
+            {
+                "type": "LineString",
+                "options": {
+                    "color": "#000",
+                    "weight": 2,
+                    "dashArray": [1, 2]
+                }
+            }
+        ],
+        "group": "drawing"
+    },
+    "fruitTree": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/fruit-tree.svg",
+            "size": 20,
+            "anchor": [10, 20]
+        },
+        "group": "drawing"
+    },
+    "shed": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/shed.svg",
+            "size": [22, 14],
+            "anchor": [11, 7]
+        },
+        "group": "drawing"
+    },
+    "stair": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/stair.svg",
+            "size": [26, 14],
+            "anchor": [13, 7]
+        },
+        "group": "drawing"
+    },
+    "ark": {
+        "type": "MultiPoint",
+        "options": {
+            "href": "/cadastral-mapping/markers/ark.svg",
+            "size": [22, 14],
+            "anchor": [11, 7]
+        },
+        "group": "drawing"
+    },
+    "isohypse": {
+        "type": "LineString",
+        "options": {
+            "color": "#daab7d",
+            "weight": 2
+        },
+        "group": "contour"
+    },
+    "mainIsohypse": {
+        "type": "LineString",
+        "options": {
+            "color": "#b85c00",
+            "weight": 4
+        },
+        "group": "contour"
+    }
+}

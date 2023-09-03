@@ -17,3 +17,8 @@
 .actions-panel li {
   background: #fff !important;
 }
+
+.leaflet-pane > svg text.leaflet-interactive {
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+}

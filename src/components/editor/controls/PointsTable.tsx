@@ -1,29 +1,38 @@
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons"
 import { Button, Table, TableProps, Upload, UploadFile } from "antd"
 import { RcFile, UploadChangeParam } from "antd/es/upload"
+import { Feature, Point } from "geojson"
 import { FC, useState } from "react"
 
 interface PointsTableProps {
     readOnly?: boolean,
-    value?: Point[],
-    onChange?: (event: { target: { value: Point[] | undefined } }) => void
+    value?: Feature<Point, PointProperties>[],
+    onChange?: (event: { target: { value: Feature<Point, PointProperties>[] | undefined } }) => void
 }
 
 const PointsTable: FC<PointsTableProps> = ({ value: defaultValue, readOnly, onChange }) => {
-    const [ value, setValue ] = useState<Point[] | undefined>(defaultValue)
+    const [ value, setValue ] = useState<Feature<Point, PointProperties>[] | undefined>(defaultValue)
 
-    const handleRemove = (record: Point) => setValue((oldValue) => oldValue?.filter(x => x !== record)) 
+    const handleRemove = (record: Feature) => setValue((oldValue) => oldValue?.filter(x => x !== record)) 
 
     const handleImport = async ({ file }: UploadChangeParam<UploadFile>) => {
         const text = await (file as RcFile).text(),
             filename = file.name.substring(0, file.name.lastIndexOf('.'))
 
-        const data: Point[] = text.split('\n').map(x => x.split(',').map(y => parseFloat(y)).filter(y => !isNaN(y))).filter(x => x.length > 0).map(p => ({
-            x: p[0],
-            y: p[1],
-            z: p[2],
-            group: filename
-        }))
+        const data: Feature<Point, PointProperties>[] = text.split('\n')
+            .map(x => x.split(',').map(y => parseFloat(y)).filter(y => !isNaN(y)))
+            .filter(x => x.length > 0)
+            .map(p => ({
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: p
+                },
+                properties: {
+                    elevation: p[2],
+                    group: filename
+                }
+            }))
 
         setValue(data)
 
@@ -34,28 +43,28 @@ const PointsTable: FC<PointsTableProps> = ({ value: defaultValue, readOnly, onCh
         return false
     }
 
-    const columns: TableProps<Point>['columns'] = [
+    const columns: TableProps<Feature<Point, PointProperties>>['columns'] = [
         {
             title: '#',
             dataIndex: 'key',
             rowScope: 'row',
             width: 40,
-            render: (_, r) => value && value.indexOf(r) + 1
+            render: (_, r: Feature<Point, PointProperties>) => value && value.indexOf(r) + 1
         },
         {
             key: 'x',
-            dataIndex: 'x',
             title: 'X',
+            render: (_, r: Feature<Point, PointProperties>) => r.geometry.coordinates[0]
         },
         {
             key: 'y',
-            dataIndex: 'y',
             title: 'Y',
+            render: (_, r: Feature<Point, PointProperties>) => r.geometry.coordinates[1]
         },
         {
             key: 'z',
-            dataIndex: 'z',
             title: 'Z',
+            render: (_, r: Feature<Point, PointProperties>) => r.geometry.coordinates[2]
         },
         {
             key: 'actions',
@@ -76,7 +85,7 @@ const PointsTable: FC<PointsTableProps> = ({ value: defaultValue, readOnly, onCh
             {!readOnly && (
                 <div style={{ float: 'right', marginTop: '-40px' }}>
                     <Upload showUploadList={false} multiple={false} maxCount={1} onChange={handleImport} beforeUpload={() => false} accept=".txt">
-                        <Button type='link' block icon={<PlusOutlined />} />
+                        <Button htmlType='button' type='link' block icon={<PlusOutlined />} />
                     </Upload>
                 </div>
             )}
